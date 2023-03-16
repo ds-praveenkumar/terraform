@@ -14,9 +14,15 @@ resource "docker_image" "nginx" {
   keep_locally = false
 }
 
+resource "random_string" "random" {
+  length           = 4
+  special          = true
+  override_special = "/@£$"
+}
+
 resource "docker_container" "nginx" {
   image = docker_image.nginx.image_id
-  name  = var.container_name
+  name  = "${var.container_name}-${random_string.random.result}"
 
   ports {
     internal = var.internal_port
