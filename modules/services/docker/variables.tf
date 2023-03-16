@@ -6,7 +6,7 @@ variable "docker_image" {
 
 variable "container_name" {
   type        = string
-  default     = "docker_nginx"
+  default     = "docker_nginx_new"
   description = "description"
 }
 
