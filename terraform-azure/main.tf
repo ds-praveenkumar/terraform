@@ -53,6 +53,12 @@ resource "azurerm_storage_account" "revel-asa" {
   account_replication_type = "LRS"
 }
 
+resource "azurerm_storage_share" "file-share" {
+  name                 = "ravelfs"
+  storage_account_name = azurerm_storage_account.revel-asa.name
+  quota                = 50
+}
+
 # Create Private Endpoint
 resource "azurerm_private_endpoint" "endpoint" {
   name                = "revel_endpoint"
