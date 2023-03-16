@@ -10,6 +10,6 @@ terraform {
 provider "docker" {}
 
 module "docker_containers" {
-  source = "./modules/services/docker"
+  source = "../modules/services/docker"
 }
 
