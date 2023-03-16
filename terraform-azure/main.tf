@@ -72,9 +72,7 @@ resource "azurerm_storage_share" "file-share" {
   storage_account_name = azurerm_storage_account.reval-asa.name
   quota                = 50
 
-  depends_on =[
-    azurerm_storage_account.reval-asa
-  ]
+  
 }
 
 # Create Private Endpoint
