@@ -14,24 +14,24 @@ provider "azurerm" {
   features {}
 }
 
-resource "azurerm_resource_group" "network-rg" {
-  name     = "test-rg"
-  location = var.location
-}
+# resource "azurerm_resource_group" "network-rg" {
+#   name     = "test-rg"
+#   location = var.location
+# }
 
 # Create the network VNET
-resource "azurerm_virtual_network" "revel-vnet" {
-  name                = "network-vnet"
-  address_space       = [var.network-vnet-cidr]
-  resource_group_name = azurerm_resource_group.network-rg.name
-  location            = azurerm_resource_group.network-rg.location
-}
+# resource "azurerm_virtual_network" "revel-vnet" {
+#   name                = "network-vnet" 
+#   address_space       = [var.network-vnet-cidr]
+#   resource_group_name = data.azurerm_resource_group.resource-group.name  #azurerm_resource_group.network-rg.name
+#   location            = var.location
+# }
 
 # Create a subnet for endpoints
 resource "azurerm_subnet" "revel-sn" {
   name                 = "revel-subnet"
-  virtual_network_name = azurerm_virtual_network.revel-vnet.name
-  resource_group_name  = azurerm_resource_group.network-rg.name
+  virtual_network_name = data.azurerm_virtual_network.vnet.name
+  resource_group_name  = data.azurerm_resource_group.resource-group.name  #azurerm_resource_group.network-rg.name
   address_prefixes     = [var.endpoint-subnet-cidr]
 }
 
@@ -39,13 +39,13 @@ resource "azurerm_subnet" "revel-sn" {
 # Create Private DNS Zone
 resource "azurerm_private_dns_zone" "dns-zone" {
   name                = "privatelink.blob.core.windows.net"
-  resource_group_name = azurerm_resource_group.network-rg.name
+  resource_group_name = data.azurerm_resource_group.resource-group.name  #azurerm_resource_group.network-rg.name
 }
 
 # Create Storage Account
 resource "azurerm_storage_account" "revel-asa" {
   name                = "revelasa"
-  resource_group_name = azurerm_resource_group.network-rg.name
+  resource_group_name = data.azurerm_resource_group.resource-group.name  #azurerm_resource_group.network-rg.name
   location            = var.location
 
   account_kind             = "StorageV2"
@@ -62,7 +62,7 @@ resource "azurerm_storage_share" "file-share" {
 # Create Private Endpoint
 resource "azurerm_private_endpoint" "endpoint" {
   name                = "revel_endpoint"
-  resource_group_name = azurerm_resource_group.network-rg.name
+  resource_group_name = data.azurerm_resource_group.resource-group.name  #azurerm_resource_group.network-rg.name
   location            = var.location
   subnet_id           = azurerm_subnet.revel-sn.id
 
@@ -78,7 +78,7 @@ resource "azurerm_private_endpoint" "endpoint" {
 resource "azurerm_private_dns_a_record" "dns_a" {
   name                = "ravel_dns"
   zone_name           = azurerm_private_dns_zone.dns-zone.name
-  resource_group_name = azurerm_resource_group.network-rg.name
+  resource_group_name = data.azurerm_resource_group.resource-group.name  #azurerm_resource_group.network-rg.name
   ttl                 = 300
   records             = [azurerm_private_endpoint.endpoint.private_service_connection.0.private_ip_address]
 }
