@@ -67,12 +67,15 @@ resource "azurerm_storage_account" "reval-asa" {
 
 }
 
-resource "azurerm_storage_share" "file-share" {
-  name                 = "ravelfs"
+resource "azurerm_storage_share" "file_share" {
+  name                 = "ravelfs1"
   storage_account_name = azurerm_storage_account.reval-asa.name
   quota                = 50
 
-  
+  depends_on = [
+    azurerm_storage_account.reval-asa 
+    
+  ]
 }
 
 # Create Private Endpoint
@@ -86,8 +89,12 @@ resource "azurerm_private_endpoint" "endpoint" {
     name                           = "ravel_psc"
     private_connection_resource_id = azurerm_storage_account.reval-asa.id
     is_manual_connection           = false
-    subresource_names              = ["blob"]
+    subresource_names              = ["file"]
   }
+
+  depends_on = [
+      azurerm_storage_share.file_share
+  ]
 }
 
 # Create DNS A Record
@@ -107,3 +114,65 @@ resource "azurerm_private_dns_a_record" "dns_a" {
 #   virtual_network_subnet_ids = [azurerm_subnet.reval-sn.id]
 #   bypass                     = ["Metrics"]
 # }
+
+
+resource "azurerm_network_interface" "smbcnic" {
+  name                = "smbc-nic"
+  location            = var.location
+  resource_group_name = data.azurerm_resource_group.resource-group.name
+
+  # ip_configuration {
+  #   name                          = "internal"
+  #   subnet_id                     = azurerm_subnet.reval-sn.id
+  #   private_ip_address_allocation = "Dynamic"
+  # }
+  ip_configuration {
+    name                          = "smbc_nic_configuration"
+    subnet_id                     = azurerm_subnet.reval-sn.id
+    private_ip_address_allocation = "Dynamic"
+    public_ip_address_id          = azurerm_public_ip.smbc_public_ip.id
+  }
+}
+
+resource "azurerm_windows_virtual_machine" "smbcvm" {
+  name                = "smbc-machine"
+  resource_group_name = data.azurerm_resource_group.resource-group.name
+  location            = var.location
+  size                = "Standard_F2"
+  admin_username      = "adminuser"
+  admin_password      = "Pr@veen1234!"
+  network_interface_ids = [
+    azurerm_network_interface.smbcnic.id,
+  ]
+
+  os_disk {
+    caching              = "ReadWrite"
+    storage_account_type = "Standard_LRS"
+  }
+
+  source_image_reference {
+    publisher = "MicrosoftWindowsServer"
+    offer     = "WindowsServer"
+    sku       = "2016-Datacenter"
+    version   = "latest"
+  }
+
+  depends_on = [
+    azurerm_network_interface.smbcnic
+  ]
+}
+
+# Connect the security group to the network interface
+resource "azurerm_network_interface_security_group_association" "smbcsga" {
+  network_interface_id      = azurerm_network_interface.smbcnic.id
+  network_security_group_id = azurerm_network_security_group.smbc_nsg.id
+}
+
+
+# Create public IPs
+resource "azurerm_public_ip" "smbc_public_ip" {
+  name                = "smbc-public-ip"
+  resource_group_name = data.azurerm_resource_group.resource-group.name
+  location            = var.location
+  allocation_method   = "Dynamic"
+}
