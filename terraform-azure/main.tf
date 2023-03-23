@@ -21,9 +21,9 @@ provider "azurerm" {
 
 # Create the network VNET
 resource "azurerm_virtual_network" "reval-vnet" {
-  name                = "network-vnet" 
+  name                = "network-vnet"
   address_space       = [var.network-vnet-cidr]
-  resource_group_name = data.azurerm_resource_group.resource-group.name  #azurerm_resource_group.network-rg.name
+  resource_group_name = data.azurerm_resource_group.resource-group.name #azurerm_resource_group.network-rg.name
   location            = var.location
 }
 
@@ -31,22 +31,22 @@ resource "azurerm_virtual_network" "reval-vnet" {
 resource "azurerm_subnet" "reval-sn" {
   name                 = "reval-subnet"
   virtual_network_name = azurerm_virtual_network.reval-vnet.name
-  resource_group_name  = data.azurerm_resource_group.resource-group.name  #azurerm_resource_group.network-rg.name
+  resource_group_name  = data.azurerm_resource_group.resource-group.name #azurerm_resource_group.network-rg.name
   address_prefixes     = [var.endpoint-subnet-cidr]
-  service_endpoints = ["Microsoft.Storage"]
+  service_endpoints    = ["Microsoft.Storage"]
 }
 
 
 # Create Private DNS Zone
 resource "azurerm_private_dns_zone" "dns-zone" {
   name                = "privatelink.blob.core.windows.net"
-  resource_group_name = data.azurerm_resource_group.resource-group.name  #azurerm_resource_group.network-rg.name
+  resource_group_name = data.azurerm_resource_group.resource-group.name #azurerm_resource_group.network-rg.name
 }
 
 # Create Storage Account
 resource "azurerm_storage_account" "reval-asa" {
   name                = "revalasa"
-  resource_group_name = data.azurerm_resource_group.resource-group.name  #azurerm_resource_group.network-rg.name
+  resource_group_name = data.azurerm_resource_group.resource-group.name #azurerm_resource_group.network-rg.name
   location            = var.location
 
   account_kind             = "StorageV2"
@@ -54,15 +54,15 @@ resource "azurerm_storage_account" "reval-asa" {
   account_replication_type = "LRS"
 
 
-    network_rules {
-        bypass = ["Logging", "Metrics", "AzureServices"]
-        default_action = "Deny"
-        virtual_network_subnet_ids = [azurerm_subnet.reval-sn.id]
-    }
-    
-    depends_on = [
-	azurerm_virtual_network.reval-vnet,
-	azurerm_subnet.reval-sn
+  network_rules {
+    bypass                     = ["Logging", "Metrics", "AzureServices"]
+    default_action             = "Allow"
+    virtual_network_subnet_ids = [azurerm_subnet.reval-sn.id]
+  }
+
+  depends_on = [
+    azurerm_virtual_network.reval-vnet,
+    azurerm_subnet.reval-sn
   ]
 
 }
@@ -73,15 +73,15 @@ resource "azurerm_storage_share" "file_share" {
   quota                = 50
 
   depends_on = [
-    azurerm_storage_account.reval-asa 
-    
+    azurerm_storage_account.reval-asa
+
   ]
 }
 
 # Create Private Endpoint
 resource "azurerm_private_endpoint" "endpoint" {
   name                = "reval_endpoint"
-  resource_group_name = data.azurerm_resource_group.resource-group.name  #azurerm_resource_group.network-rg.name
+  resource_group_name = data.azurerm_resource_group.resource-group.name #azurerm_resource_group.network-rg.name
   location            = var.location
   subnet_id           = azurerm_subnet.reval-sn.id
 
@@ -93,7 +93,7 @@ resource "azurerm_private_endpoint" "endpoint" {
   }
 
   depends_on = [
-      azurerm_storage_share.file_share
+    azurerm_storage_share.file_share
   ]
 }
 
@@ -101,7 +101,7 @@ resource "azurerm_private_endpoint" "endpoint" {
 resource "azurerm_private_dns_a_record" "dns_a" {
   name                = "ravel_dns"
   zone_name           = azurerm_private_dns_zone.dns-zone.name
-  resource_group_name = data.azurerm_resource_group.resource-group.name  #azurerm_resource_group.network-rg.name
+  resource_group_name = data.azurerm_resource_group.resource-group.name #azurerm_resource_group.network-rg.name
   ttl                 = 300
   records             = [azurerm_private_endpoint.endpoint.private_service_connection.0.private_ip_address]
 }
@@ -175,4 +175,103 @@ resource "azurerm_public_ip" "smbc_public_ip" {
   resource_group_name = data.azurerm_resource_group.resource-group.name
   location            = var.location
   allocation_method   = "Dynamic"
+}
+
+# resource "azurerm_recovery_services_vault" "smbc_rsv" {
+#   name                = "smbc-recovery-vault"
+#   resource_group_name = data.azurerm_resource_group.resource-group.name
+#   location            = var.location
+#   sku                 = "Standard"
+# }
+
+# resource "azurerm_backup_policy_file_share" "smbc_bkp_fs" {
+#   name                = "smbc-recovery-vault-policy"
+#   resource_group_name = data.azurerm_resource_group.resource-group.name
+#   recovery_vault_name = azurerm_recovery_services_vault.smbc_rsv.name
+
+#   timezone = "UTC"
+
+#   backup {
+#     frequency = "Daily"
+#     time      = "23:00"
+#   }
+
+#   retention_daily {
+#     count = 10
+#   }
+
+#   retention_weekly {
+#     count    = 7
+#     weekdays = ["Sunday", "Wednesday", "Friday", "Saturday"]
+#   }
+
+#   retention_monthly {
+#     count    = 7
+#     weekdays = ["Sunday", "Wednesday"]
+#     weeks    = ["First", "Last"]
+#   }
+
+#   retention_yearly {
+#     count    = 7
+#     weekdays = ["Sunday"]
+#     weeks    = ["Last"]
+#     months   = ["January"]
+#   }
+
+#   depends_on = [
+#     azurerm_recovery_services_vault.smbc_rsv
+#   ]
+# }
+
+
+# resource "azurerm_backup_container_storage_account" "smbc_protection_container" {
+#   resource_group_name = data.azurerm_resource_group.resource-group.name
+#   recovery_vault_name = azurerm_recovery_services_vault.smbc_rsv.name
+#   storage_account_id  = azurerm_storage_account.reval-asa.id
+# }
+
+
+# resource "azurerm_backup_protected_file_share" "smbc_bkp_file_share" {
+#   resource_group_name       = data.azurerm_resource_group.resource-group.name
+#   recovery_vault_name       = azurerm_recovery_services_vault.smbc_rsv.name
+#   source_storage_account_id = azurerm_backup_container_storage_account.smbc_protection_container.storage_account_id
+#   source_file_share_name    = azurerm_storage_share.file_share.name
+#   backup_policy_id          = azurerm_backup_policy_file_share.smbc_bkp_fs.id
+# }
+
+# module "smbc_nsg" {
+#   source = "./modules/services/nsg"
+# }
+
+module "backup_policy" {
+  source = "./modules/services/backup_policy"
+
+  service_vault_name = var.recovery_vault_name
+
+  # depends_on = [
+  #   module.service_vault
+  # ]
+}
+
+# module "backup_protected_file_share" {
+#   source = "./modules/services/backup_protected_file_share"
+# }
+
+module "backup_container" {
+  source = "./modules/services/backup_container"
+
+  recovery_vault_name = module.service_vault.srv_name #"smbc-recovery-vault" #module.service_vault.name
+  storage_account_id  = azurerm_storage_account.reval-asa.id
+
+  depends_on = [ 
+    azurerm_storage_account.reval-asa
+  ]
+
+}
+
+
+module "service_vault" {
+  source = "./modules/services/service_vault"
+
+   recovery_vault_name =  var.recovery_vault_name #"smbc-recovery-vault"
 }

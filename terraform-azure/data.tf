@@ -1,6 +1,6 @@
 
 data "azurerm_resource_group" "resource-group" {
-    name = "test-rg"
+  name = "test-rg"
 }
 
 # data "azurerm_virtual_network" "vnet" {
