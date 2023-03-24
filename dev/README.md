@@ -37,3 +37,19 @@ terraform -chdir="./deployment/private_endpoint" apply -var-file=../../terraform
 terraform -chdir="./deployment/network_interface" init
 terraform -chdir="./deployment/network_interface" plan -var-file=../../terraform.tfvars 
 terraform -chdir="./deployment/network_interface" apply -var-file=../../terraform.tfvars -auto-approve
+
+- winvm
+terraform -chdir="./deployment/winvm" init
+terraform -chdir="./deployment/winvm" plan -var-file=../../terraform.tfvars
+terraform -chdir="./deployment/winvm" apply -var-file=../../terraform.tfvars -auto-approve
+
+- recovery vault
+terraform -chdir=./deployment/recovery_vault  init
+terraform -chdir=./deployment/recovery_vault  plan -var-file=../../terraform.tfvars
+terraform -chdir=./deployment/recovery_vault  apply -var-file=../../terraform.tfvars -auto-approve
+
+- backup policy
+terraform -chdir=./deployment/backup_policy init
+terraform -chdir=./deployment/backup_policy plan -var-file=../../terraform.tfvars
+terraform -chdir=./deployment/backup_policy apply -var-file=../../terraform.tfvars -auto-approve
+
