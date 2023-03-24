@@ -10,14 +10,16 @@ location = "East US 2"
 # Storage account 
 ##########################
 
-storage_name = "test_sa"
+storage_name = "testsanewrg2"
 
 ##########################
 # Virtual Network 
 ##########################
 
-vnet_name = "test_vnet"
+vnet_name         = "test_vnet"
 network_vnet_cidr = "10.10.0.0/16"
+subnet_name       = "test_subnet"
+dns_zone_name     = "privatelink.blob.core.windows.net"
 
 ##########################
 # Win Virtual Machine 
