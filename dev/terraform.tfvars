@@ -26,16 +26,21 @@ dns_zone_name     = "privatelink.blob.core.windows.net"
 # Win Virtual Machine 
 ##########################
 
-vm_name              = "test_vm"
+vm_name              = "testvm"
 endpoint_subnet_cidr = "10.10.1.0/24"
 
 
 ##########################
-# recovery vault 
+# Recovery vault 
 ##########################
 
-recovery_vault_name = "test_rsv"
+recovery_vault_name = "testrsv"
 
+
+##########################
+# Backup Policy name 
+##########################
+bkp_policy_name = "testbkpolicy"
 
 ##########################
 # Private Endpoint 
