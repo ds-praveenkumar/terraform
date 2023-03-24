@@ -11,6 +11,7 @@ location = "East US 2"
 ##########################
 
 storage_name = "testsanewrg2"
+file_share_name = "testfs"
 
 ##########################
 # Virtual Network 
