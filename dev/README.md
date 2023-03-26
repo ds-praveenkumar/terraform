@@ -53,3 +53,8 @@ terraform -chdir=./deployment/backup_policy init
 terraform -chdir=./deployment/backup_policy plan -var-file=../../terraform.tfvars
 terraform -chdir=./deployment/backup_policy apply -var-file=../../terraform.tfvars -auto-approve
 
+- backup container
+
+terraform -chdir=./deployment/backup_container
+terraform -chdir=./deployment/backup_container plan -var-file=../../terraform.tfvars
+terraform -chdir=./deployment/backup_container -var-file=../../terraform.tfvars -auto-approve
