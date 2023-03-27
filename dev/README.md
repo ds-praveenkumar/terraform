@@ -58,3 +58,8 @@ terraform -chdir=./deployment/backup_policy apply -var-file=../../terraform.tfva
 terraform -chdir=./deployment/backup_container
 terraform -chdir=./deployment/backup_container plan -var-file=../../terraform.tfvars
 terraform -chdir=./deployment/backup_container -var-file=../../terraform.tfvars -auto-approve
+
+- backup_protected_file_share
+terraform -chdir=./deployment/backup_protected_file_share init
+terraform -chdir=./deployment/backup_protected_file_share  plan -var-file=../../terraform.tfvars -auto-approve
+terraform -chdir=./deployment/backup_protected_file_share  apply -var-file=../../terraform.tfvars -auto-approve
