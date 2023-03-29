@@ -73,3 +73,15 @@ terraform -chdir=./deployment/vm_stop_schedule apply  -var-file=../../terraform.
 terraform -chdir=./deployment/automation_schedule init
 terraform -chdir=./deployment/automation_schedule plan -var-file=../../terraform.tfvars
 terraform -chdir=./deployment/automation_schedule apply  -var-file=../../terraform.tfvars -auto-approve
+
+-- container registry
+terraform -chdir=./deployment/container_registry  init
+terraform -chdir=./deployment/container_registry plan -var-file=../../terraform.tfvars
+terraform -chdir=./deployment/container_registry  apply -var-file=../../terraform.tfvars -auto-approve
+terraform -chdir=./deployment/container_registry  destroy -var-file=../../terraform.tfvars -auto-approve
+
+-- win function app
+terraform -chdir=./deployment/win_function_app init
+terraform -chdir=./deployment/win_function_app plan -var-file=../../terraform.tfvars
+terraform -chdir=./deployment/win_function_app apply -var-file=../../terraform.tfvars -auto-approve
+terraform -chdir=./deployment/win_function_app destroy -var-file=../../terraform.tfvars -auto-approve

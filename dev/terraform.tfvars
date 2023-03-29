@@ -80,3 +80,16 @@ runbook_name             = "test_vm_stop"
 ##########################
 role_name               = "StopStartVM"
 user_assigned_id_name   = "development-automation"
+
+
+##########################
+# container Registery
+##########################
+acr_name = "Testacr"
+
+
+##########################
+# win Func App
+##########################
+sp_name = "test-app-service-plan"
+fn_name = "test-app"
