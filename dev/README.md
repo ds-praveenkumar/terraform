@@ -61,5 +61,15 @@ terraform -chdir=./deployment/backup_container -var-file=../../terraform.tfvars 
 
 - backup_protected_file_share
 terraform -chdir=./deployment/backup_protected_file_share init
-terraform -chdir=./deployment/backup_protected_file_share  plan -var-file=../../terraform.tfvars -auto-approve
+terraform -chdir=./deployment/backup_protected_file_share  plan -var-file=../../terraform.tfvars 
 terraform -chdir=./deployment/backup_protected_file_share  apply -var-file=../../terraform.tfvars -auto-approve
+
+- vm stop schedule
+terraform -chdir=./deployment/vm_stop_schedule init
+terraform -chdir=./deployment/vm_stop_schedule plan -var-file=../../terraform.tfvars
+terraform -chdir=./deployment/vm_stop_schedule apply  -var-file=../../terraform.tfvars -auto-approve
+
+- vm start automation
+terraform -chdir=./deployment/automation_schedule init
+terraform -chdir=./deployment/automation_schedule plan -var-file=../../terraform.tfvars
+terraform -chdir=./deployment/automation_schedule apply  -var-file=../../terraform.tfvars -auto-approve

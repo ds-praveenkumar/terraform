@@ -7,3 +7,5 @@ module "winvm" {
     location = var.location
     network_interface_name = var.network_interface_name
 }
+
+

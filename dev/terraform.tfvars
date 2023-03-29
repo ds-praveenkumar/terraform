@@ -30,7 +30,6 @@ dns_zone_name     = "privatelink.blob.core.windows.net"
 vm_name              = "testvm"
 endpoint_subnet_cidr = "10.10.1.0/24"
 
-
 ##########################
 # Recovery vault 
 ##########################
@@ -56,3 +55,20 @@ pvc_name           = "test_psc"
 ##########################
 network_interface_name = "test_nic"
 ip_config_name         = "test_ipconf"
+
+
+##########################
+# Win Virtual Machine Schedule
+##########################
+timezone   = "Eastern Standard Time"
+daily_recurrence_time = "1900"
+
+
+##########################
+# Automation Schedule Start 
+##########################
+automation_account_name  = "StartVM"
+automation_schedule_name = "testautomation"
+start_time               = "2023-03-30T06:00:00Z"
+sku_name                 = "Basic"
+time_zone                = "America/Chicago"
