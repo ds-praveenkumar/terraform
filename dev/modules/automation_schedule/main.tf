@@ -5,6 +5,11 @@ resource "azurerm_automation_account" "testautomation" {
   location            = var.location
   resource_group_name = data.azurerm_resource_group.resource-group.name
   sku_name            = var.sku_name
+
+  identity {
+    type         = "UserAssigned"
+    identity_ids = [data.azurerm_user_assigned_identity.test_user.id]
+  }
 }
 
 
@@ -19,13 +24,30 @@ resource "azurerm_automation_schedule" "scheduledstartvm" {
   description             = "Run every day"
 }
 
-# resource "azurerm_automation_job_schedule" "startvm_sched" {
-#   resource_group_name     = data.azurerm_resource_group.resource-group.name
-#   automation_account_name = azurerm_automation_account.testautomation.name
-#   schedule_name           = azurerm_automation_schedule.scheduledstartvm.name
-#   runbook_name            = azurerm_automation_runbook.startstopvmrunbook.name
-#    parameters = {
-#     action        = "Start"
-#   }
-#   depends_on = [azurerm_automation_schedule.scheduledstartvm]
-# }
+
+resource "azurerm_automation_runbook" "test_runbook" {
+  name                    = var.runbook_name
+  location                = var.location
+  resource_group_name     = data.azurerm_resource_group.resource-group.name
+  automation_account_name = azurerm_automation_account.testautomation.name
+  log_verbose             = "true"
+  log_progress            = "true"
+  description             = "This is an example runbook"
+  runbook_type            = "PowerShell"
+
+  content = data.local_file.ps_script.content
+}
+
+
+resource "azurerm_automation_job_schedule" "startvm_sched" {
+  resource_group_name     = data.azurerm_resource_group.resource-group.name
+  automation_account_name = azurerm_automation_account.testautomation.name
+  schedule_name           = azurerm_automation_schedule.scheduledstartvm.name
+  runbook_name            = azurerm_automation_runbook.test_runbook.name
+   parameters = {
+    vmname             = var.vm_name
+    resourcegroupname  = data.azurerm_resource_group.resource-group.name
+    action             = "Start"
+  }
+  depends_on = [azurerm_automation_schedule.scheduledstartvm]
+}
