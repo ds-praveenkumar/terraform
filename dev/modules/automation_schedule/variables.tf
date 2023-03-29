@@ -12,3 +12,9 @@ variable "automation_schedule_name" {}
 variable "start_time" {}
 
 variable "sku_name" {}
+
+variable "runbook_name" {}
+
+variable "vm_name" {}
+
+variable "user_assigned_id_name" {}
