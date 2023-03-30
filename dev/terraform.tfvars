@@ -85,7 +85,7 @@ user_assigned_id_name   = "development-automation"
 ##########################
 # container Registery
 ##########################
-acr_name = "Testacr"
+acr_name = "Testacrgit"
 
 
 ##########################
@@ -93,3 +93,11 @@ acr_name = "Testacr"
 ##########################
 sp_name = "test-app-service-plan"
 fn_name = "test-app"
+
+
+##########################
+# Web App
+##########################
+web_app_name    = "test-webapp"
+asp_name        = "test-asp" 
+web_sku_name    = "F1"

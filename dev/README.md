@@ -85,3 +85,9 @@ terraform -chdir=./deployment/win_function_app init
 terraform -chdir=./deployment/win_function_app plan -var-file=../../terraform.tfvars
 terraform -chdir=./deployment/win_function_app apply -var-file=../../terraform.tfvars -auto-approve
 terraform -chdir=./deployment/win_function_app destroy -var-file=../../terraform.tfvars -auto-approve
+
+-- web app
+terraform -chdir=./deployment/web_app init
+terraform -chdir=./deployment/web_app plan -var-file=../../terraform.tfvars 
+terraform -chdir=./deployment/web_app apply -var-file=../../terraform.tfvars -auto-approve
+terraform -chdir=./deployment/web_app destroy -var-file=../../terraform.tfvars -auto-approve

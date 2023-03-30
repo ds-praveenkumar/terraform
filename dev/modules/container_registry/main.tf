@@ -8,7 +8,6 @@ resource "random_string" "random" {
   special          = false
   override_special = "/@£$"
   lower            = true
-  number           = false
   numeric          = false
 }
 
