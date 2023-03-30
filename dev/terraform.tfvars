@@ -69,7 +69,7 @@ daily_recurrence_time = "1900"
 ##########################
 automation_account_name  = "StartVM"
 automation_schedule_name = "testautomation"
-start_time               = "2023-03-29T10:00:00Z"
+# start_time               = "2023-03-29T10:00:00Z"
 sku_name                 = "Basic"
 time_zone                = "America/Chicago"
 runbook_name             = "test_vm_stop"

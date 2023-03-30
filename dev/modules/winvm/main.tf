@@ -22,10 +22,7 @@ resource "azurerm_windows_virtual_machine" "testvm" {
     sku       = "2016-Datacenter"
     version   = "latest"
   }
-
-  
 }
-
 
 
 resource "azurerm_dev_test_global_vm_shutdown_schedule" "test_vm_stop" {

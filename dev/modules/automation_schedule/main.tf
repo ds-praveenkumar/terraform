@@ -1,5 +1,13 @@
 
 
+locals {
+  now = timestamp()
+
+   est_tz  = timeadd(local.now, "+1.5h") # EST's official time
+}
+
+
+
 resource "azurerm_automation_account" "testautomation" {
   name                = var.automation_account_name
   location            = var.location
@@ -20,7 +28,7 @@ resource "azurerm_automation_schedule" "scheduledstartvm" {
   frequency               = "Day"
   interval                = 1
   timezone                = var.time_zone
-  start_time              = var.start_time
+  start_time              = local.est_tz
   description             = "Run every day"
 }
 

@@ -20,3 +20,7 @@ variable "endpoint_subnet_cidr" {
 #   description = "The CIDR for the endpoint subnet"
 #   default     = "10.10.1.0/24"
 }
+
+# variable "subnet_name" {}
+
+# variable "endpoint_subnet_cidr" {}
