@@ -2,7 +2,7 @@
 
 variable "vnet_name" {}
 
-variable "subnet_name" {}
+# variable "subnet_name" {}
 
 variable "resource_group_name" {}
 
@@ -15,9 +15,9 @@ variable "network_vnet_cidr" {
 
 }
 
-variable "endpoint_subnet_cidr" {
-  # type        = string
-  # description = "The CIDR for the endpoint subnet"
-  # default     = "10.10.1.0/24"
-}
+# variable "endpoint_subnet_cidr" {
+#   # type        = string
+#   # description = "The CIDR for the endpoint subnet"
+#   # default     = "10.10.1.0/24"
+# }
 

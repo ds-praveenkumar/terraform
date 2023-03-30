@@ -1,9 +1,4 @@
 
-provider "azurerm" {
-  features {}
-}
-
-
 module "reval_subnet" {
   source = "../../../modules/networking/subnet"
 

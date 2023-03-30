@@ -18,3 +18,10 @@ variable "runbook_name" {}
 variable "vm_name" {}
 
 variable "user_assigned_id_name" {}
+
+output "locals" {
+  value = {
+    "now"          = local.now # 2021-04-20T04:12:00Z,
+    "EST_tz"  = local.est_tz
+  }
+}

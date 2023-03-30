@@ -27,3 +27,10 @@ then
 else
     exit
 fi
+echo "\n\n------------------------------------------------------\n\n"
+echo terraform -chdir="./deployment/$dirname" init  
+echo terraform -chdir="./deployment/$dirname" plan -var-file=../../terraform.tfvars 
+echo terraform -chdir="./deployment/$dirname" apply -var-file=../../terraform.tfvars -auto-approve
+echo terraform -chdir="./deployment/$dirname" destroy -var-file=../../terraform.tfvars -auto-approve
+
+echo "\n\n------------------------------------------------------\n\n"
