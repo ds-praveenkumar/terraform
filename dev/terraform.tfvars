@@ -60,9 +60,14 @@ ip_config_name         = "test_ipconf"
 ##########################
 # Win Virtual Machine Schedule
 ##########################
-timezone   = "Eastern Standard Time"
-daily_recurrence_time = "1900"
-
+timezone                = "Eastern Standard Time"
+daily_recurrence_time   = "1900"
+auto_scale_profile_name = "autoscaleProfile"
+auto_scale_settings     = "autoScalSettings"
+metric_name             = "Percentage CPU"
+default_count           = 5
+min_count               = 5
+max_count               = 16
 
 ##########################
 # Automation Schedule Start 
@@ -72,7 +77,7 @@ automation_schedule_name = "testautomation"
 # start_time               = "2023-03-29T10:00:00Z"
 sku_name                 = "Basic"
 time_zone                = "America/Chicago"
-runbook_name             = "test_vm_stop"
+runbook_name             = "test_vm_start"
 
 
 ##########################
