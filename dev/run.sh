@@ -1,7 +1,11 @@
-#!/bin/bash
+#!/bin/bash sh
 
 read -p 'folder name: ' dirname
 
+echo "running terraform format"
+terraform -chdir="./modules/$dirname" fmt
+terraform -chdir="./deployment/$dirname" fmt
+echo success!!!
 echo running... terraform init $dirname
 terraform -chdir="./deployment/$dirname" init  
 echo success!!!

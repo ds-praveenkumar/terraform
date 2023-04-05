@@ -68,7 +68,7 @@ metric_name             = "Percentage CPU"
 default_count           = 5
 min_count               = 5
 max_count               = 16
-
+auto_scale_name         = "testvmss"
 ##########################
 # Automation Schedule Start 
 ##########################
