@@ -5,7 +5,7 @@ locals {
 }
 
 
-resource "azurerm_windows_virtual_machine_scale_set" "test_scale_set" {
+resource "azurerm_windows_virtual_machine_scale_set" "testvmss" {
 
   name                = var.auto_scale_name
   resource_group_name = local.rg
@@ -43,7 +43,7 @@ resource "azurerm_monitor_autoscale_setting" "example" {
   name                = var.auto_scale_settings
   resource_group_name = local.rg
   location            = local.location
-  target_resource_id  = azurerm_windows_virtual_machine_scale_set.test_scale_set.id
+  target_resource_id  = azurerm_windows_virtual_machine_scale_set.testvmss.id
 
   profile {
     name = var.auto_scale_profile_name
@@ -57,7 +57,7 @@ resource "azurerm_monitor_autoscale_setting" "example" {
     rule {
       metric_trigger {
         metric_name        = var.metric_name
-        metric_resource_id = azurerm_windows_virtual_machine_scale_set.test_scale_set.id
+        metric_resource_id = azurerm_windows_virtual_machine_scale_set.testvmss.id
         time_grain         = "PT1M"
         statistic          = "Average"
         time_window        = "PT5M"
@@ -77,7 +77,7 @@ resource "azurerm_monitor_autoscale_setting" "example" {
     rule {
       metric_trigger {
         metric_name        = var.metric_name
-        metric_resource_id = azurerm_windows_virtual_machine_scale_set.test_scale_set.id
+        metric_resource_id = azurerm_windows_virtual_machine_scale_set.testvmss.id
         time_grain         = "PT1M"
         statistic          = "Average"
         time_window        = "PT5M"
