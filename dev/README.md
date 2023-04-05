@@ -103,3 +103,8 @@ terraform -chdir=./deployment/web_app plan -var-file=../../terraform.tfvars
 terraform -chdir=./deployment/web_app apply -var-file=../../terraform.tfvars -auto-approve
 terraform -chdir=./deployment/web_app destroy -var-file=../../terraform.tfvars -auto-approve
 
+-- VM scale set
+terraform -chdir=./deployment/win_vm_scale_set init
+terraform -chdir=./deployment/win_vm_scale_set plan -var-file=../../terraform.tfvars
+terraform -chdir=./deployment/win_vm_scale_set apply -var-file=../../terraform.tfvars -auto-approve
+terraform -chdir=./deployment/win_vm_scale_set destroy -var-file=../../terraform.tfvars -auto-approve
