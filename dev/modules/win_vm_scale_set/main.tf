@@ -18,7 +18,7 @@ resource "azurerm_windows_virtual_machine_scale_set" "testvmss" {
   source_image_reference {
     publisher = "MicrosoftWindowsServer"
     offer     = "WindowsServer"
-    sku       = "2016-Datacenter-Server-Core"
+    sku       = "2019-Datacenter"
     version   = "latest"
   }
 
