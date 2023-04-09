@@ -12,5 +12,7 @@ module "test_auto_scale" {
   network_interface_name  = var.network_interface_name
   subnet_name             = var.subnet_name
   vnet_name               = var.vnet_name
+  inscale_threshold       = var.inscale_threshold
+  upscale_threshold       = var.upscale_threshold
 
 }
