@@ -18,3 +18,7 @@ variable "network_interface_name" {}
 variable "subnet_name" {}
 
 variable "vnet_name" {}
+
+variable "upscale_threshold" {}
+
+variable "inscale_threshold" {}

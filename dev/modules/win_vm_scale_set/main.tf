@@ -63,7 +63,7 @@ resource "azurerm_monitor_autoscale_setting" "example" {
         time_window        = "PT5M"
         time_aggregation   = "Average"
         operator           = "GreaterThan"
-        threshold          = 90
+        threshold          = var.upscale_threshold
       }
 
       scale_action {
@@ -83,7 +83,7 @@ resource "azurerm_monitor_autoscale_setting" "example" {
         time_window        = "PT5M"
         time_aggregation   = "Average"
         operator           = "LessThan"
-        threshold          = 10
+        threshold          = var.inscale_threshold
       }
 
       scale_action {

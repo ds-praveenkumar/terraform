@@ -33,7 +33,6 @@ endpoint_subnet_cidr = "10.10.1.0/24"
 ##########################
 # Recovery vault 
 ##########################
-
 recovery_vault_name = "testrsv"
 
 
@@ -69,6 +68,7 @@ default_count           = 5
 min_count               = 5
 max_count               = 16
 auto_scale_name         = "testvmss"
+
 ##########################
 # Automation Schedule Start 
 ##########################
@@ -106,3 +106,9 @@ fn_name = "test-app"
 web_app_name    = "test-webapp"
 asp_name        = "test-asp" 
 web_sku_name    = "F1"
+
+#############################
+# Windows machine scale set 
+#############################
+upscale_threshold = 90 
+inscale_threshold = 10
