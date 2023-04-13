@@ -40,11 +40,13 @@ terraform -chdir="./deployment/private_endpoint" apply -var-file=../../terraform
 terraform -chdir="./deployment/network_interface" init
 terraform -chdir="./deployment/network_interface" plan -var-file=../../terraform.tfvars 
 terraform -chdir="./deployment/network_interface" apply -var-file=../../terraform.tfvars -auto-approve
+terraform -chdir="./deployment/network_interface" destroy -var-file=../../terraform.tfvars -auto-approve
 
 - winvm
 terraform -chdir="./deployment/winvm" init
 terraform -chdir="./deployment/winvm" plan -var-file=../../terraform.tfvars
 terraform -chdir="./deployment/winvm" apply -var-file=../../terraform.tfvars -auto-approve
+terraform -chdir="./deployment/winvm" destroy -var-file=../../terraform.tfvars -auto-approve
 
 - recovery vault
 terraform -chdir=./deployment/recovery_vault  init
@@ -57,7 +59,6 @@ terraform -chdir=./deployment/backup_policy plan -var-file=../../terraform.tfvar
 terraform -chdir=./deployment/backup_policy apply -var-file=../../terraform.tfvars -auto-approve
 
 - backup container
-
 terraform -chdir=./deployment/backup_container
 terraform -chdir=./deployment/backup_container plan -var-file=../../terraform.tfvars
 terraform -chdir=./deployment/backup_container -var-file=../../terraform.tfvars -auto-approve
@@ -84,6 +85,7 @@ terraform -chdir=./deployment/manage_identities destroy -var-file=../../terrafor
 terraform -chdir=./deployment/automation_schedule init
 terraform -chdir=./deployment/automation_schedule plan -var-file=../../terraform.tfvars
 terraform -chdir=./deployment/automation_schedule apply  -var-file=../../terraform.tfvars -auto-approve
+terraform -chdir=./deployment/automation_schedule destroy  -var-file=../../terraform.tfvars -auto-approve
 
 -- container registry
 terraform -chdir=./deployment/container_registry  init
