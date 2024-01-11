@@ -30,3 +30,5 @@ override.tf.json
 terraform-azure/cert.pem
 terraform-azure/key.pem
 dev/test/main.tf
+
+*.zip
